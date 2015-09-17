@@ -8,16 +8,24 @@
 struct node;
 typedef struct node * ptrNode;
 typedef struct node * position;
-typedef int element_type;
-typedef struct node* LIST;
+typedef int ElementType;
+typedef struct node* List;
 
-int is_empty(LIST L);
-void make_empty(LIST L);
-position create_node(element_type x);
-void delete_node(LIST L,position p);
-position creat_list();
-void delete_list(LIST L);
-void insert(position p,element_type x);
-position previous(LIST L,position p);
+position CreateList(void);
+void DeleteNode(List l,ElementType e);
+position CreateNode(ElementType e);
+void Insert(List l,ElementType e,position);
+void Append(List l,ElementType e);
+void Connect(List l1,List l2);
+void DeleteList(List l);
+void MakeEmpty(List l);
+
+int isEmpty(List l);
+int isLast(List l);
+position next(position p);
+position previous(List l,position p);
+position findElement(List l,ElementType e);
+position Last(List l);
+void printList(List l);
 
 #endif

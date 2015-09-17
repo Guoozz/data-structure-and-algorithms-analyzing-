@@ -14,8 +14,10 @@ structe node {
 . 遍历链表
 ####修改链表的操作
 ```c
+    /* 创建一个单链表 */
+    ptrNode CreateList(void);
     /* 删除元素为e的节点,该操作只会删除第一个碰到的e元素 */
-    position DeleteNode(List l,ElementType e);
+    void DeleteNode(List l,ElementType e);
     /* 生成一个节点 */
     position CreateNode(ElementType e);
     /* 在位置p后面插入一个元素 */
@@ -40,7 +42,9 @@ structe node {
     /* 返回位置p前面一个元素的位置 */
     position previous(List l,position p)
     /* 返回数据部分为e的节点位置 */
-    position findElement(ElementType e);
+    position findElement(List l,ElementType e);
+    /* 返回最后一个元素的位置 */
+    poistion Last(List l);
     /* 打印链表 */
     void printList(List l);
 ```
