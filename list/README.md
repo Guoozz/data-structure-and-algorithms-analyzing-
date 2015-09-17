@@ -2,7 +2,10 @@
 ---
 ###什么是链表？
 我不从数学上形式化的定义链表，而只是介绍如何表示链表。在C中，链表由一系列的节点组成，其中每个节点分为两部分：节点部分和指向下一节点的指针。
-> structe node {  
-    element x;  
-    structe node* next;  
-    };  
+```python
+    l = []
+structe node {
+    element x;
+    structe node* next;
+    };
+```
