@@ -57,10 +57,13 @@ void DeleteList(List l)
 {
      ptrNode p = l -> next;
      free(l);
+     l -> next = NULL;
      while(p != NULL){
           ptrNode tmp = p;
           p = p -> next;
+          tmp -> next = NULL;
           free(tmp);
+          tmp = NULL;
      }
 }
 
