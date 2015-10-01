@@ -2,11 +2,7 @@
 /****************************************
 递归版本:
  search(a,i,j)
- if i > j 数组为空 return
- m = middle(a,i,j);计算数组a[i,j]中间位置
- search(a,i,middle - 1) if a[midlle] > v
- search(a,middle+1,j) if a[midlle] < v
- else return middle
+ 结束条件 i>j  <=> (middle,middle - 1) or (middle + 1,middle)
 *****************************************/
 
 int search(int a[],int v,int i,int j)
