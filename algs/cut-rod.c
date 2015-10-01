@@ -33,7 +33,7 @@ void partation_with_costs(int len)
 
 int main()
 {
-   for(int i = 1; i < 20;++i){
+  for(int i = 1; i < 20;++i){ // i 为钢条长度
     printf("direct:r[%d]=%d\t",i,cut_rod(i,Direct));
     printf("topdown:r[%d]=%d\t",i,cut_rod(i,TopDown));
     printf("belowup:r[%d]=%d\t",i,cut_rod(i,BelowUp));
