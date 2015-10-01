@@ -3,14 +3,6 @@
 #include "top_down_cut_rod.c"
 #include "direct_cut_rod.c"
 
-int partation_price(int len,int c); //划分代价
-int cut_rod(int,int);
-
-int cut_rod_with_partation_price(int len,int c,int type) //带划分代价的切割代价
-{
-  return cut_rod(len,type) - partation_price(len,c);
-}
-
 int cut_rod(int len,int type) //type表示解决钢条切割方法类型
 {
   if(type == Direct)                    //直接法求解
@@ -30,25 +22,25 @@ void partation(int len) //伪递归，其实是个迭代计算过程;先计算�
   partation(len-s[len]);
 }
 
-int partation_price(int len,int c)
+void partation_with_costs(int len)
 {
-  int counts = 0;
-  while(len > 0){
-    if(len != s[len]) //查看是否需要划分
-      ++counts;
-    len -= s[len];
-  }
-  return counts * c;
+  if(len <= 0)
+    return ;
+  printf("%d,",s_cut_costs[len]);
+  partation_with_costs(len-s_cut_costs[len]);
 }
+
 
 int main()
 {
-  int c = 2; //划分代价
-  for(int i = 1; i < 20;++i){
+   for(int i = 1; i < 20;++i){
     printf("direct:r[%d]=%d\t",i,cut_rod(i,Direct));
     printf("topdown:r[%d]=%d\t",i,cut_rod(i,TopDown));
-    printf("belowup:r[%d]=%d\npartation price:%d\n",i,cut_rod(i,BelowUp),partation_price(i,c));
+    printf("belowup:r[%d]=%d\t",i,cut_rod(i,BelowUp));
+    printf("cut with partation costs:r[%d]=%d\n",i,top_down_cut_rod_with_partation_costs(i,5));
     partation(i);
+    putchar('\n');
+    partation_with_costs(i);
     putchar('\n');
   }
 
