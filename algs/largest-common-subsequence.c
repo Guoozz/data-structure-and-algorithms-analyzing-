@@ -26,6 +26,7 @@ int largest(int x[],int y[],int m[][100],int i,int j)
   return m[i][j];
 }
 
+/* 不使用额外的表打印最长公共子序列 */
 void print_largest(int x[],int y[],int m[][100],int i,int j)
 {
   if(i == -1 || j == -1)
