@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#define LEN(x) (int) sizeof(x)/sizeof(int)
 /*
   最长公共子序列问题
   m[i,j] 表示序列X,Y最长公共子序列的长度，其中i,j分别为X,Y中序列的数目
@@ -13,7 +14,7 @@
 
 int largest(int x[],int y[],int m[][100],int i,int j)
 {
-  if(i == 0 || j == 0)
+  if(i == -1 || j == -1)
     return 0;
   if(m[i][j] > 0)
     return m[i][j];
@@ -46,14 +47,14 @@ void print_largest(int x[],int y[],int m[][100],int i,int j)
 int main()
 {
   /* 求 X,Y的最长公共子序列 */
-  int x[] = {0,2,3,7,1111,333,444,43,33};
-  int y[] = {0,2,3,7,33};
+  int x[] = {1,0,2,3,7,1111,333,444,43,33};
+  int y[] = {99,0,32,98,2,3,7,33};
   int m[100][100];
   for(int i = 0;i < 100;++i)
     for(int j = 0;j < 100;++j)
       m[i][j] = 0;
-  printf("%d\n",largest(x,y,m,8,4));
-  print_largest(x,y,m,8,4);
+  printf("%d\n",largest(x,y,m,LEN(x),LEN(y))); //LEN(x) 为数组x的长度
+  print_largest(x,y,m,LEN(x),LEN(y));
   putchar('\n');
   return 0;
 }
