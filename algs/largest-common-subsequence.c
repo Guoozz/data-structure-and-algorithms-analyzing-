@@ -10,6 +10,7 @@
   m[i,j] = max{m[i-1,j],m[j,i-1]} {if x[i]!=x[j] and i,j>0}
  */
 
+
 /* 带备忘的最长公共子序列算法 */
 
 int largest(int x[],int y[],int m[][100],int i,int j)
