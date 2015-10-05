@@ -16,7 +16,7 @@ int largest(int x[],int y[],int m[][100],int i,int j)
 {
   if(i == -1 || j == -1)
     return 0;
-  if(m[i][j] > 0)
+  if(m[i][j] > -1)
     return m[i][j];
   if(x[i] == y[j])
     m[i][j]= largest(x,y,m,i-1,j-1)+1;
@@ -52,7 +52,7 @@ int main()
   int m[100][100];
   for(int i = 0;i < 100;++i)
     for(int j = 0;j < 100;++j)
-      m[i][j] = 0;
+      m[i][j] = -1;
   printf("%d\n",largest(x,y,m,LEN(x),LEN(y))); //LEN(x) 为数组x的长度
   print_largest(x,y,m,LEN(x),LEN(y));
   putchar('\n');
