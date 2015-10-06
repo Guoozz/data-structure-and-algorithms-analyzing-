@@ -19,53 +19,47 @@
   同时我们利用root[i,j]记录k[i,j]根节点的位置r
  */
 #include<stdio.h>
+#define MIN 100000000000000.0
 
-float bst(float p[],float q[],int root[][100],int w[][100],int i,int j)
+float bst(float p[],float q[],int root[][100],float w[][100],float e[][100],int i,int j)
 {
-  if(j == i-1)
-    return q[i-1];
+  if(e[i][j] > 0)
+    return e[i][j];
+  if(j == i-1){
+     return q[i-1];
+  }
   else if(j >= i){
-    float min = 100000000000.0;
+    float min = MIN;
     for(int r = i;r <= j;++r){
-      float tmp = bst(p,q,root,w,i,r-1)+ bst(p,q,root,w,r+1,j)+p[r]+w[i][j];
+      float tmp = bst(p,q,root,w,e,i,r-1)+ bst(p,q,root,w,e,r+1,j)+w[i][j];
       if(tmp < min){
+        e[i][j] = tmp;
         min = tmp;
         root[i][j] = r;
       }
     }
-    return min;
   }
-  return -1;
+  return e[i][j];
 }
 
-float optimal_bst(float p[],float q[],int kl,int dl)
+float optimal_bst(float p[],float q[],int n)
 {
-  int w[100][100];
-  for(int i = 1;i <= kl+1;++i)
-    w[i][i-1] = q[i-1];
-  for(int i = 1;i <= kl;++i)
-    for(int j = i + 1;j <= dl;++j)
-      w[i][j] = w[i][j-1] + q[j] + p[j];
+  float w[100][100],m[100][100]={{0},{0}};
   int root[100][100];
-  void print_root(int [][100],int,int);
-  print_root(root,1,kl);
-  return bst(p,q,root,w,1,kl);
-}
-
-void print_root(int root[][100],int i,int j)
-{
-  if(i <= j){
-    printf("\t\t%d",root[i][j]);
-    putchar('\n');
-    print_root(root,i,root[i][j]-1);
-    print_root(root,root[i][j]+1,j);
-  }
+  /* j = i-1 初始化w[i][j] */
+  for(int i = 1;i <= n;++i)
+    w[i][i-1] = q[i-1];
+  /* j >= i 初始化w[i][j] */
+  for(int i = 1;i <= n;++i)
+    for(int j = i;j <= n;++j)
+      w[i][j] = w[i][j-1] + p[j] + q[j];
+  return bst(p,q,root,w,m,1,n);
 }
 
 int main()
 {
   float p[] = {0,0.15,0.10,0.05,0.10,0.20};
   float q[] = {0.05,0.10,0.05,0.05,0.05,0.10};
-  printf("%f\n",optimal_bst(p,q,5,6));
+  printf("%.2f\n",optimal_bst(p,q,5));
   return 0;
 }
