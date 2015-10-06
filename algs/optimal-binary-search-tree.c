@@ -21,6 +21,7 @@
 #include<stdio.h>
 #define MIN 100000000000000.0
 
+/* 带备忘的obst算法 */
 float bst(float p[],float q[],int root[][100],float w[][100],float e[][100],int i,int j)
 {
   if(e[i][j] > 0)
@@ -53,13 +54,35 @@ float optimal_bst(float p[],float q[],int n)
   for(int i = 1;i <= n;++i)
     for(int j = i;j <= n;++j)
       w[i][j] = w[i][j-1] + p[j] + q[j];
-  return bst(p,q,root,w,m,1,n);
+  float tmp =  bst(p,q,root,w,m,1,n);
+  void print_root(int[][100],int,int);
+  print_root(root,1,n);
+  return tmp;
+}
+
+int k[6] = {0,1,2,3,4,5};
+float d[6] = {0.2,1.3,2.4,3.5,4.8,5.5};
+void print_root(int root[][100],int i,int j)
+{
+  if(j == i - 1){
+    printf("%.2f\t",d[i-1]);
+    return ;
+  }
+  putchar('(');
+  printf("root:%d",k[root[i][j]]);
+  putchar('(');
+  print_root(root,i,root[i][j]-1);
+  putchar(')');
+  putchar('(');
+  print_root(root,root[i][j]+1,j);
+  putchar(')');
+
 }
 
 int main()
 {
   float p[] = {0,0.15,0.10,0.05,0.10,0.20};
   float q[] = {0.05,0.10,0.05,0.05,0.05,0.10};
-  printf("%.2f\n",optimal_bst(p,q,5));
+  printf("\nbst最小的代价为:%.2f\n",optimal_bst(p,q,5));
   return 0;
 }
