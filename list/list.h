@@ -19,6 +19,7 @@ void Append(List l,ElementType e);
 void Connect(List l1,List l2);
 void DeleteList(List l);
 void MakeEmpty(List l);
+void reverse(List l);
 
 int isEmpty(List l);
 int isLast(List l);

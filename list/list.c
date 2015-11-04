@@ -132,3 +132,24 @@ void printList(List l)
           p = p -> next;
      }
 }
+
+void reverse(List l)
+{
+  int length = 0;
+  position p = l->next;
+  List a[length];
+  int i = 0;
+  while(p != NULL){
+    ++length;
+    a[i++] = p;
+    p = p->next;
+  }
+  List tmp = CreateList();
+  for(i = length - 1; i >= 0; --i){
+    tmp->next = a[i];
+    tmp = tmp->next;
+  }
+  tmp->next = NULL;
+  MakeEmpty(l);
+  l->next = tmp->next;
+}
