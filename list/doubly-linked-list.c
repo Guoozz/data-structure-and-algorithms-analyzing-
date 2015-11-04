@@ -71,3 +71,20 @@ node create_node(object x){
   }
   return p;
 }
+
+/* 翻转一个双端链表
+   对于每一个节点而言,翻转后,交换next,pre指针
+ */
+void reverse_doubly_list(doubly_list l)
+{
+  node p = l->head;
+  node tmp = NULL;
+  while(p!=NULL) {
+    tmp = p->next;
+    p->next = p->pre;
+    p->pre = tmp;
+    if(p->pre == NULL)
+      l->head = p;
+    p = p->pre;
+  }
+}

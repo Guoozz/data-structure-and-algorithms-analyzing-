@@ -133,23 +133,21 @@ void printList(List l)
      }
 }
 
+/*
+  翻转单链表,每一个节点的next指向前一个节点
+ */
 void reverse(List l)
 {
-  int length = 0;
-  position p = l->next;
-  List a[length];
-  int i = 0;
-  while(p != NULL){
-    ++length;
-    a[i++] = p;
-    p = p->next;
+  List p = l->next;
+  List pre = NULL;
+  while(p != NULL) {
+    List next = p->next;
+    p->next = pre;
+    pre = p;
+    if(next == NULL){
+      l->next = p;
+      break;
+    }
+    p = next;
   }
-  List tmp = CreateList();
-  for(i = length - 1; i >= 0; --i){
-    tmp->next = a[i];
-    tmp = tmp->next;
-  }
-  tmp->next = NULL;
-  MakeEmpty(l);
-  l->next = tmp->next;
 }
