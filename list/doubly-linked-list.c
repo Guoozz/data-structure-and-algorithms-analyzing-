@@ -83,8 +83,8 @@ void reverse_doubly_list(doubly_list l)
     tmp = p->next;
     p->next = p->pre;
     p->pre = tmp;
-    if(p->pre == NULL)
+    if(p->pre == NULL) // 到达最后一个节点
       l->head = p;
-    p = p->pre;
+    p = p->pre;       //next,pre指针已交换
   }
 }
