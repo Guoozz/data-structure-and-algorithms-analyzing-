@@ -160,11 +160,45 @@ search_tree_node search_tree_find(search_tree_node root,int key)
   return root;
 }
 
+void search_tree_transplant(search_tree t,search_tree_node u,search_tree_node v)
+{
+  if(t->root == u) //被替换的节点为根节点
+    t->root = v;
+  else if(u->parent->left == u) //被替换的节点为某个节点的左孩子
+    u->parent->left = v;
+  else
+    u->parent->right = v;
+
+  if(v != NULL)
+    v->parent = u->parent;
+}
+
+// 删除树中的某个节点,结合图像更容易理解
+void delete_search_tree_node(search_tree t,search_tree_node node)
+{
+  if(node->left == NULL)
+    search_tree_transplant(t,node,node->right);
+  else if(node->right == NULL)
+    search_tree_transplant(t,node,node->left);
+  else {
+    search_tree_node successor = search_tree_successor(node);
+    if(successor->parent != node){
+      search_tree_transplant(t,successor,successor->right);
+      successor->right = node->right;
+      node->right->parent = successor;
+    }
+    search_tree_transplant(t,successor,node);
+    successor->left = node->left;
+    node->left->parent = successor;
+  }
+  free(node);
+}
+
 int main()
 {
   search_tree t = create_search_tree();
 
-  for(int i = 0;i < 200;++i){
+  for(int i = 0;i < 20;++i){
     search_tree_node node = create_search_tree_node(i);
     search_tree_insert(t,node);
   }
@@ -176,17 +210,11 @@ int main()
   int minimum = search_tree_minimum(t->root)->key;
   printf("maximum element:%d\nminimum element:%d\n",maximum,minimum);
 
-  search_tree_node t1 = search_tree_find(t->root,0);
-  search_tree_node t2 = search_tree_find(t->root,199);
-  search_tree_node t3 = search_tree_find(t->root,200);
-  if(t1 != NULL) printf("t1:%d\n",t1->key);
-  if(t2 != NULL) printf("t2:%d\n",t2->key);
-  if(t3 != NULL) printf("t3:%d\n",t3->key);
-
-  search_tree_node t1_suc = search_tree_successor(t1);
-  search_tree_node t2_pre = search_tree_predecessor(t2);
-  search_tree_node t2_suc = search_tree_successor(t2);
-  if(t2_suc != NULL) printf("t2_suc:%d\n",t2_suc->key);
+  printf("After delete key=maximum,key=0 operation:\n");
+  delete_search_tree_node(t,search_tree_find(t->root,maximum));
+  delete_search_tree_node(t,search_tree_find(t->root,0));
+  in_order_search_tree(t->root);
+  putchar('\n');
 
   free_search_tree(t);
 
