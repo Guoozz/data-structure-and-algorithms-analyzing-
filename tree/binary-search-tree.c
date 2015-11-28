@@ -37,6 +37,7 @@ void search_tree_insert(search_tree T,search_tree_node node)
   int key = node->key;
   search_tree_node tmp = T->root;
   search_tree_node tmp_parent = NULL;
+
   while(tmp != NULL){
     tmp_parent = tmp;
     if(key < tmp->key)
@@ -44,6 +45,7 @@ void search_tree_insert(search_tree T,search_tree_node node)
     else
       tmp = tmp->right;
   }
+
   if(tmp_parent == NULL){
     T->root = node;
   } //empty tree
@@ -67,18 +69,18 @@ search_tree_node create_search_tree_node(int key)
   return node;
 }
 
-void delete_search_tree_node(search_tree_node root)
+void free_search_tree_node(search_tree_node root)
 {
   if(root != NULL){
-    delete_search_tree_node(root->left);
+    free_search_tree_node(root->left);
     free(root);
-    delete_search_tree_node(root->right);
+    free_search_tree_node(root->right);
   }
 }
 
-void delete_search_tree(search_tree t)
+void free_search_tree(search_tree t)
 {
-  delete_search_tree_node(t->root);
+  free_search_tree_node(t->root);
   free(t->info);
   free(t);
 }
@@ -92,16 +94,102 @@ void in_order_search_tree(search_tree_node root)
   }
 }
 
+search_tree_node search_tree_maximum(search_tree_node root)
+{
+  if(root == NULL)
+    return root;
+
+  while(root->right != NULL)
+    root = root->right;
+
+  return root;
+}
+
+search_tree_node search_tree_minimum(search_tree_node root)
+{
+  if(root == NULL)
+    return NULL;
+
+  while(root->left != NULL)
+    root = root->left;
+
+  return root;
+}
+
+//中序遍历的前驱和后继
+
+search_tree_node search_tree_successor(search_tree_node node)
+{
+  if(node->right != NULL)
+    return search_tree_minimum(node->right);
+
+  search_tree_node parent = node->parent;
+
+  while(parent != NULL && parent->right == node){
+    node = parent;
+    parent = parent->parent;
+  }
+
+  return parent;
+}
+
+search_tree_node search_tree_predecessor(search_tree_node node)
+{
+  if(node->left != NULL)
+    return search_tree_maximum(node->left);
+
+  search_tree_node parent = node->parent;
+
+  while(parent != NULL && parent->left == node){
+    node = parent;
+    parent = parent->parent;
+  }
+
+  return parent;
+}
+
+search_tree_node search_tree_find(search_tree_node root,int key)
+{
+  if(root == NULL)
+    return NULL;
+
+  if(key < root->key)
+    return search_tree_find(root->left,key);
+  else if(key > root->key)
+    return search_tree_find(root->right,key);
+  return root;
+}
+
 int main()
 {
   search_tree t = create_search_tree();
+
   for(int i = 0;i < 200;++i){
     search_tree_node node = create_search_tree_node(i);
     search_tree_insert(t,node);
   }
+
   in_order_search_tree(t->root);
-  malloc_stats();
-  delete_search_tree(t);
+  putchar('\n');
+
+  int maximum = search_tree_maximum(t->root)->key;
+  int minimum = search_tree_minimum(t->root)->key;
+  printf("maximum element:%d\nminimum element:%d\n",maximum,minimum);
+
+  search_tree_node t1 = search_tree_find(t->root,0);
+  search_tree_node t2 = search_tree_find(t->root,199);
+  search_tree_node t3 = search_tree_find(t->root,200);
+  if(t1 != NULL) printf("t1:%d\n",t1->key);
+  if(t2 != NULL) printf("t2:%d\n",t2->key);
+  if(t3 != NULL) printf("t3:%d\n",t3->key);
+
+  search_tree_node t1_suc = search_tree_successor(t1);
+  search_tree_node t2_pre = search_tree_predecessor(t2);
+  search_tree_node t2_suc = search_tree_successor(t2);
+  if(t2_suc != NULL) printf("t2_suc:%d\n",t2_suc->key);
+
+  free_search_tree(t);
+
   malloc_stats();
   return 0;
 }
