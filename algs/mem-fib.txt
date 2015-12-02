@@ -1,0 +1,53 @@
+##利用表格法计算斐波那契数列数
+
+##python实现
+
+mem_table = {0:1,1:1}
+def mem_fib(n):
+    if n in mem_table:
+        return mem_table[n]
+    else:
+        new_value = mem_fib(n-1) + mem_fib(n-2)
+        mem_table[n] = new_value
+        return new_value
+
+##c实现
+
+#define UNKNOWN -1
+#define MAX 100
+long f[MAX];
+
+long fib(int n)
+{
+  if(f[n] == UNKNOWN)
+    return f[n] = fib(n-1) + fib(n-2);
+
+  return f[n];
+}
+
+long table_driven_fib(n)
+{
+  f[0] = 0;
+  f[1] = 1;
+
+  for(int i = 2;i <= n;++i)
+    f[i] = UNKNOWN;
+
+  return fib(n);
+}
+
+##scheme 实现
+
+(load "one-dimensional-table.scm")
+
+(define (mem-fib)
+  (let ((fib-table (make-table)))
+    (define (iter n)
+      (let ((value (look-up n fib-table)))
+        (cond ((or (= n 0) (= n 1)) n)
+              (value value)
+              (else (let ((result (+ (iter (- n 1))
+                                     (iter (- n 2)))))
+                      (insert! n result fib-table)
+                      result)))))
+    iter))

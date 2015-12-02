@@ -160,6 +160,7 @@ search_tree_node search_tree_find(search_tree_node root,int key)
   return root;
 }
 
+//需要注意的是，该替换操作并不会修改孩子节点
 void search_tree_transplant(search_tree t,search_tree_node u,search_tree_node v)
 {
   if(t->root == u) //被替换的节点为根节点
